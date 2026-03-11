@@ -27,7 +27,6 @@ function playRound(humanChoice, computerChoice) {
         return;
     } else {
         function checkIfHumanWon() {
-            //filter out draw possibilities.
             if(computerChoice === humanChoice) {
                 return "draw";
             } 
