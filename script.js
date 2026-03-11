@@ -1,12 +1,3 @@
-// Rock-paper-scissors game.
-// Rock wins agaisnt scissors.
-// Paper wins agaisnt Rock.
-// Scissors wins against paper.
-
-// Rock loses against paper. 
-// Paper loses against scissors. 
-// Scissors loses against rock.
-
 // To debug using console.log, find the relevant debug-aiding code above "Debug conclusion: ..." comments.
 
 let humanScore = 0;
