@@ -20,6 +20,11 @@ function showScores() {
     console.log(showScoresMessage);
 }
 
+function getFormattedChoice(choiceInNumberForm) {
+    let choices = ["Rock", "Paper", "Scissors"];
+    return choices[choiceInNumberForm - 1];
+}
+
 function playRound(humanChoice, computerChoice) {
     if(isNaN(humanChoice)) {
         console.log("Please enter a valid number.");
@@ -56,12 +61,7 @@ function playRound(humanChoice, computerChoice) {
 
             return false;
         }
-
-        function getFormattedChoice(choiceInNumberForm) {
-            let choices = ["Rock", "Paper", "Scissors"];
-            return choices[choiceInNumberForm - 1];
-        }
-
+        
         if(checkIfHumanWon() === "draw") {
             drawCount++;
             console.log(`It's a draw!`);
