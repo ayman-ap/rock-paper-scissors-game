@@ -51,21 +51,21 @@ function playRound(humanChoice, computerChoice) {
             return false;
         }
 
-        function getConvertedChoiceFromNumberToStringCounterpart(choiceInNumberForm) {
+        function getFormattedChoice(choiceInNumberForm) {
             let choices = ["Rock", "Paper", "Scissors"];
             return choices[choiceInNumberForm - 1];
         }
 
         function showVictoryMessage() {
-            let humanStringChoice = getConvertedChoiceFromNumberToStringCounterpart(humanChoice);
-            let computerStringChoice = getConvertedChoiceFromNumberToStringCounterpart(computerChoice);
+            let humanStringChoice = getFormattedChoice(humanChoice);
+            let computerStringChoice = getFormattedChoice(computerChoice);
             let victoryMessage = `You Won This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${humanStringChoice} beats ${computerStringChoice}!`;
             console.log(victoryMessage);
         }
 
         function showDefeatMessage() {
-            let humanStringChoice = getConvertedChoiceFromNumberToStringCounterpart(humanChoice);
-            let computerStringChoice = getConvertedChoiceFromNumberToStringCounterpart(computerChoice);
+            let humanStringChoice = getFormattedChoice(humanChoice);
+            let computerStringChoice = getFormattedChoice(computerChoice);
             let defeatMessage = `You Lost This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${computerStringChoice} beats ${humanStringChoice}!`;
             console.log(defeatMessage);
         }
