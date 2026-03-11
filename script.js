@@ -57,16 +57,6 @@ function playRound(humanChoice, computerChoice) {
             return choices[choiceInNumberForm - 1];
         }
 
-        function showVictoryMessage() {
-            let victoryMessage = `You Won This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${humanStringChoice} beats ${computerStringChoice}!`;
-            console.log(victoryMessage);
-        }
-
-        function showDefeatMessage() {
-            let defeatMessage = `You Lost This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${computerStringChoice} beats ${humanStringChoice}!`;
-            console.log(defeatMessage);
-        }
-
         function showScores() {
             let showScoresMessage = `Your Score: ${humanScore}\nComputerScore: ${computerScore}\nDraw count: ${drawCount}`;
             console.log(showScoresMessage);
@@ -77,10 +67,12 @@ function playRound(humanChoice, computerChoice) {
             console.log(`It's a draw!`);
         } else if(checkIfHumanWon()) {
             humanScore++;
-            showVictoryMessage();
+            let victoryMessage = `You Won This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${humanStringChoice} beats ${computerStringChoice}!`;
+            console.log(victoryMessage);
         } else {
             computerScore++;
-            showDefeatMessage();
+            let defeatMessage = `You Lost This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${computerStringChoice} beats ${humanStringChoice}!`;
+            console.log(defeatMessage);
         }
 
         showScores();
