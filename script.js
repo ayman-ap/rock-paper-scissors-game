@@ -16,9 +16,6 @@ function getComputerChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
-    console.log(computerChoice);
-    console.log(humanChoice);
-
     if(isNaN(humanChoice)) {
         console.log("Please enter a valid number.");
         return;
@@ -26,6 +23,10 @@ function playRound(humanChoice, computerChoice) {
         console.log("Please enter a number between 1 - 3!");
         return;
     } else {
+
+        let humanStringChoice = getFormattedChoice(humanChoice);
+        let computerStringChoice = getFormattedChoice(computerChoice);
+
         function checkIfHumanWon() {
             if(computerChoice === humanChoice) {
                 return "draw";
@@ -57,15 +58,11 @@ function playRound(humanChoice, computerChoice) {
         }
 
         function showVictoryMessage() {
-            let humanStringChoice = getFormattedChoice(humanChoice);
-            let computerStringChoice = getFormattedChoice(computerChoice);
             let victoryMessage = `You Won This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${humanStringChoice} beats ${computerStringChoice}!`;
             console.log(victoryMessage);
         }
 
         function showDefeatMessage() {
-            let humanStringChoice = getFormattedChoice(humanChoice);
-            let computerStringChoice = getFormattedChoice(computerChoice);
             let defeatMessage = `You Lost This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${computerStringChoice} beats ${humanStringChoice}!`;
             console.log(defeatMessage);
         }
