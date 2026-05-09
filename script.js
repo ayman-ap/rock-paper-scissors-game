@@ -88,10 +88,12 @@ function playGame() {
     }
 
     if (humanScore === computerScore) {
-        console.log(`${numberOfRounds} round(s) are over, It's a draw!`);
+        console.log(`${numberOfRounds} round(s) are over, It's an overall draw!`);
     } else if(humanScore > computerScore) {
         console.log("Congratulations! You're the overall winner!");
     } else {
         console.log("Oh shucks! The computer won, better luck next time!");
     }
 }
+
+playGame();
