@@ -3,10 +3,6 @@ let computerScore = 0;
 let drawCount = 0;
 let numberOfRoundsPlayed = 0;
 
-function getHumanChoice() {
-    return humanChoice;
-}
-
 function getComputerChoice() {
     let computerChoice = Math.floor(Math.random() * 3) + 1;
     return computerChoice;
@@ -78,27 +74,7 @@ function playRound(humanChoice, computerChoice) {
         showScores();
         return;
     }
-}
-
-function playGame() {
-    playRound(getHumanChoice(), getComputerChoice());
-
-    if (humanChoice !== 0) {
-        displayTextInUI(`Number of Rounds Played: ${numberOfRoundsPlayed}`);
-    };
-
-    if(humanScore + computerScore !== 0) {
-        if (humanScore === computerScore) {
-            displayTextInUI("It's an overall draw!");
-        } else if(humanScore > computerScore) {
-            displayTextInUI("Congratulations! You're the overall winner!");
-        } else if(computerScore > humanScore) {
-            displayTextInUI("Oh shucks! The computer won, better luck next time!");
-        };
-    };
-
-    displayTextInUI ('_____________________________');
-}
+};
 
 // GUI related code.
 let div = document.querySelector('#results');
@@ -118,13 +94,6 @@ function displayTextInUI(text, classValue) {
 function resetResultsInUI() {
     let paraArray = [...div.children].filter((para) => para.getAttribute('class') === 'from-console');
 
-    numberOfRoundsPlayed = 0;
-    humanChoice = 0;
-    computerChoice = 0;
-    computerScore = 0;
-    humanScore = 0;
-    drawCount = 0;
-
     optionsArray.forEach((option) => {
         option.removeAttribute('style');
     })
@@ -139,6 +108,15 @@ function resetResultsInUI() {
     });
 
     console.log('results log cleared');
+}
+
+function resetVariableValues(){
+    numberOfRoundsPlayed = 0;
+    humanChoice = 0;
+    computerChoice = 0;
+    computerScore = 0;
+    humanScore = 0;
+    drawCount = 0;
 }
 
 document.addEventListener('click', (e) => {
@@ -158,12 +136,42 @@ document.addEventListener('click', (e) => {
                 if (options !== e.target) {
                     options.removeAttribute('style');
                 }
-            })
-        }
+            });
+        };
 
-        return humanChoice;
-    }
+        if(humanScore + computerScore !== 0 && (humanScore === 5 || computerScore === 5)) {
+            // The playRound function also updates the human/computer scores.
+            // So even if the results display 5, this if statement will only run when either is six.
+            // That's not a bug, it's a feature, to see your results before the final Winner message.
+            // It could be because I didn't initially considerhe data and logic flow, bt I prefer the former explanation.
+
+            resetResultsInUI();
+
+            displayTextInUI("Five rounds up!");
+            showScores();
+
+            if (humanScore === computerScore) {
+                displayTextInUI("It's an overall draw!");
+            } else if(humanScore > computerScore) {
+                displayTextInUI('Most wins by: You!');
+            } else if(computerScore > humanScore) {
+                displayTextInUI('Most wins by: The Computer!');
+            };
+
+            return;
+        };
+
+        playRound(humanChoice, getComputerChoice());
+
+        if (humanChoice !== 0) {
+            displayTextInUI(`Number of Rounds Played: ${numberOfRoundsPlayed}`);
+        };
+
+        displayTextInUI ('_____________________________');
+    };
 });
 
-document.querySelector('#play-btn').addEventListener('click', playGame);
-document.querySelector('#reset-btn').addEventListener('click', resetResultsInUI);
+document.querySelector('#reset-btn').addEventListener('click', () => {
+    resetResultsInUI();
+    resetVariableValues();
+});
