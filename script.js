@@ -143,7 +143,7 @@ document.addEventListener('click', (e) => {
             // The playRound function also updates the human/computer scores.
             // So even if the results display 5, this if statement will only run when either is six.
             // That's not a bug, it's a feature, to see your results before the final Winner message.
-            // It could be because I didn't initially considerhe data and logic flow, bt I prefer the former explanation.
+            // It could be because I didn't initially consider the data and logic flow, but I prefer the former explanation.
 
             resetResultsInUI();
 
