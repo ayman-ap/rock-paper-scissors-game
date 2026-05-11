@@ -1,12 +1,9 @@
 let humanScore = 0;
 let computerScore = 0;
 let drawCount = 0;
+let numberOfRoundsPlayed = 0;
 
 function getHumanChoice() {
-    // I'll use a number system instead of string because typing a single number is faster than a whole word that could have typos.
-    // humanChoice.trim().toLowerCase() incase I change my mind.
-
-    let humanChoice = parseInt(prompt("Enter:\n1. For Rock\n2. For paper\n3. For scissors", 1));
     return humanChoice;
 }
 
@@ -17,7 +14,7 @@ function getComputerChoice() {
 
 function showScores() {
     let showScoresMessage = `Your Score: ${humanScore}\nComputerScore: ${computerScore}\nDraw count: ${drawCount}`;
-    console.log(showScoresMessage);
+    displayTextInUI(showScoresMessage);
 }
 
 function getFormattedChoice(choiceInNumberForm) {
@@ -27,10 +24,12 @@ function getFormattedChoice(choiceInNumberForm) {
 
 function playRound(humanChoice, computerChoice) {
     if(isNaN(humanChoice)) {
-        console.log("Please enter a valid number.");
+        console.log("Error: String input not/can't be converted to number.");
+        displayTextInUI("Please enter a valid number.");
         return;
     } else if (humanChoice <= 0 || humanChoice > 3) {
-        console.log("Please enter a number between 1 - 3!");
+        console.log("Error: Input number chosen is either default zero or out of supported range.");
+        displayTextInUI("Please enter a number between 1 - 3!");
         return;
     } else {
 
@@ -64,36 +63,107 @@ function playRound(humanChoice, computerChoice) {
         
         if(checkIfHumanWon() === "draw") {
             drawCount++;
-            console.log(`It's a draw!`);
+            displayTextInUI(`It's a draw!`);
         } else if(checkIfHumanWon()) {
             humanScore++;
             let victoryMessage = `You Won This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${humanStringChoice} beats ${computerStringChoice}!`;
-            console.log(victoryMessage);
+            displayTextInUI(victoryMessage);
         } else {
             computerScore++;
             let defeatMessage = `You Lost This Round!\nYou chose ${humanStringChoice}, computer chose ${computerStringChoice}.\n${computerStringChoice} beats ${humanStringChoice}!`;
-            console.log(defeatMessage);
+            displayTextInUI(defeatMessage);
         }
 
+        numberOfRoundsPlayed++;
         showScores();
         return;
     }
 }
 
 function playGame() {
-    let numberOfRounds = 5;
+    playRound(getHumanChoice(), getComputerChoice());
 
-    for(let i = 0; i < numberOfRounds; i++){
-        playRound(getHumanChoice(), getComputerChoice());
-    }
+    if (humanChoice !== 0) {
+        displayTextInUI(`Number of Rounds Played: ${numberOfRoundsPlayed}`);
+    };
 
-    if (humanScore === computerScore) {
-        console.log(`${numberOfRounds} round(s) are over, It's an overall draw!`);
-    } else if(humanScore > computerScore) {
-        console.log("Congratulations! You're the overall winner!");
-    } else {
-        console.log("Oh shucks! The computer won, better luck next time!");
-    }
+    if(humanScore + computerScore !== 0) {
+        if (humanScore === computerScore) {
+            displayTextInUI("It's an overall draw!");
+        } else if(humanScore > computerScore) {
+            displayTextInUI("Congratulations! You're the overall winner!");
+        } else if(computerScore > humanScore) {
+            displayTextInUI("Oh shucks! The computer won, better luck next time!");
+        };
+    };
+
+    displayTextInUI ('_____________________________');
 }
 
-playGame();
+// GUI related code.
+let div = document.querySelector('#results');
+let humanChoice = 0;
+let optionsArray = [...document.querySelectorAll('button')].filter((btn) => btn.getAttribute('class') === 'option');
+let clickedOptionButtons = 0;
+
+function displayTextInUI(text, classValue) {
+    let para = document.createElement('p');
+
+    para.setAttribute('class', 'from-console');
+    para.innerText = text;
+
+    div.appendChild(para);
+};
+
+function resetResultsInUI() {
+    let paraArray = [...div.children].filter((para) => para.getAttribute('class') === 'from-console');
+
+    numberOfRoundsPlayed = 0;
+    humanChoice = 0;
+    computerChoice = 0;
+    computerScore = 0;
+    humanScore = 0;
+    drawCount = 0;
+
+    optionsArray.forEach((option) => {
+        option.removeAttribute('style');
+    })
+    
+    if (paraArray.length === 0){
+        console.log('Empty Array');
+        return;
+    }
+
+    paraArray.forEach((para) => {
+        para.remove();
+    });
+
+    console.log('results log cleared');
+}
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('button') && e.target.getAttribute('class') === 'option') {
+        let buttonColorAfterClick = "lightgreen";
+        humanChoice = parseInt(e.target.getAttribute('id'));
+        e.target.style.backgroundColor = buttonColorAfterClick;
+        
+        optionsArray.forEach((optionBtn) => {
+            if(optionBtn.getAttribute('style') === `background-color: ${buttonColorAfterClick};`) {
+                clickedOptionButtons++;
+            };
+        });
+
+        if(clickedOptionButtons > 1) {
+            optionsArray.forEach((options) => {
+                if (options !== e.target) {
+                    options.removeAttribute('style');
+                }
+            })
+        }
+
+        return humanChoice;
+    }
+});
+
+document.querySelector('#play-btn').addEventListener('click', playGame);
+document.querySelector('#reset-btn').addEventListener('click', resetResultsInUI);
